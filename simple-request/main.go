@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -35,7 +36,6 @@ func main() {
 			"who":    form,
 			"value":  value,
 		})
-
 	})
 	r.POST("/upload", func(c *gin.Context) {
 		file, _ := c.FormFile("file")

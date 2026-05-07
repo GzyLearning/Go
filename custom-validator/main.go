@@ -2,13 +2,11 @@ package main
 
 import (
 	"net/http"
-	"reflect"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
-	"gopkg.in/go-playground/validator.v8"
 )
 
 // Booking contains binded and validated data.
@@ -17,11 +15,9 @@ type Booking struct {
 	CheckOut time.Time `form:"check_out" binding:"required,gtfield=CheckIn" time_format:"2006-01-02"`
 }
 
-func bookableDate(
-	v *validator.Validate, topStruct reflect.Value, currentStructOrField reflect.Value,
-	field reflect.Value, fieldType reflect.Type, fieldKind reflect.Kind, param string,
-) bool {
-	if date, ok := field.Interface().(time.Time); ok {
+func bookableDate(fl validator.FieldLevel) bool {
+	date, ok := fl.Field().Interface().(time.Time)
+	if ok {
 		today := time.Now()
 		if today.Year() > date.Year() || today.YearDay() > date.YearDay() {
 			return false
